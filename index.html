@@ -1,77 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>我的游戏官网</title>
+<title>我的个人网站</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial;
-  background: radial-gradient(circle at top, #1e293b, #0f172a);
+  background: #0f172a;
   color: white;
+  text-align: center;
 }
 
-/* 顶部区域 */
 .hero {
-  text-align: center;
-  padding: 80px 20px;
+  padding: 60px;
 }
 
-.hero h1 {
-  font-size: 40px;
-  color: #38bdf8;
-}
-
-.hero p {
-  color: #94a3b8;
-}
-
-/* 按钮 */
-.btn {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 25px;
-  background: #38bdf8;
-  color: black;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  transform: scale(1.05);
-  background: #0ea5e9;
-}
-
-/* 卡片区域 */
 .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 40px;
+  max-width: 600px;
+  margin: auto;
 }
 
-.card {
-  background: rgba(30, 41, 59, 0.8);
-  padding: 20px;
-  border-radius: 15px;
-  transition: 0.3s;
-  border: 1px solid #334155;
+input {
+  padding: 10px;
+  width: 70%;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  border-color: #38bdf8;
+button {
+  padding: 10px;
+  margin: 5px;
+  background: #38bdf8;
+  border: none;
+  border-radius: 5px;
 }
 
-/* 页脚 */
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #64748b;
+li {
+  background: #1e293b;
+  margin: 10px;
+  padding: 10px;
+  list-style: none;
 }
 </style>
 
@@ -80,39 +48,82 @@ footer {
 <body>
 
 <div class="hero">
-  <h1>🎮 我的游戏世界</h1>
-  <p>一个属于我的 Minecraft / 游戏服务器官网</p>
-  <a class="btn" href="#start">进入网站</a>
+  <h1>👋 我是 zby</h1>
+  <p>一个做2b游戏和安慕希地图的玩家</p>
 </div>
 
-<div class="container" id="start">
+<div class="container">
 
-  <div class="card">
-    <h2>🌍 服务器信息</h2>
-    <p>IP：mc.example.com</p>
-    <p>版本：1.20.x</p>
-  </div>
+<h2>💬 留言板</h2>
 
-  <div class="card">
-    <h2>👥 社区</h2>
-    <p>加入QQ群 / Discord</p>
-  </div>
+<input id="msg" placeholder="说点什么...">
+<button onclick="sendMsg()">发送</button>
 
-  <div class="card">
-    <h2>💬 留言板</h2>
-    <p>玩家交流区域（后面可接数据库）</p>
-  </div>
+<br><br>
+<input id="adminPass" placeholder="zby208200">
 
-  <div class="card">
-    <h2>📊 状态</h2>
-    <p>在线 / 离线（后面可接API）</p>
-  </div>
+<ul id="list"></ul>
 
 </div>
 
-<footer>
-© 2026 我的游戏官网
-</footer>
+<script>
+const API = "Worker地址";
+
+async function loadMsg() {
+  const res = await fetch(API + "/get");
+  const data = await res.json();
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  data.reverse().forEach(m => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      ${m.text}<br>
+      👍 ${m.likes}
+      <button onclick="likeMsg(${m.id}, ${m.likes})">点赞</button>
+      <button onclick="deleteMsg(${m.id})">删除</button>
+    `;
+    list.appendChild(li);
+  });
+}
+
+async function sendMsg() {
+  const text = document.getElementById("msg").value;
+
+  await fetch(API + "/post", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({text})
+  });
+
+  loadMsg();
+}
+
+async function likeMsg(id, likes) {
+  await fetch(API + "/like", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({id, likes})
+  });
+
+  loadMsg();
+}
+
+async function deleteMsg(id) {
+  const password = document.getElementById("adminPass").value;
+
+  await fetch(API + "/delete", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({id, password})
+  });
+
+  loadMsg();
+}
+
+loadMsg();
+</script>
 
 </body>
 </html>
