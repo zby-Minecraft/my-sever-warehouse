@@ -1,32 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>我的个人网站</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的游戏官网</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial;
-  background: #0f172a;
+  background: radial-gradient(circle at top, #1e293b, #0f172a);
   color: white;
-  text-align: center;
 }
 
-.header {
-  padding: 50px;
+/* 顶部区域 */
+.hero {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  color: #38bdf8;
+}
+
+.hero p {
+  color: #94a3b8;
+}
+
+/* 按钮 */
+.btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background: #38bdf8;
+  color: black;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  background: #0ea5e9;
+}
+
+/* 卡片区域 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 40px;
 }
 
 .card {
-  background: #1e293b;
-  margin: 20px;
+  background: rgba(30, 41, 59, 0.8);
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 15px;
+  transition: 0.3s;
+  border: 1px solid #334155;
 }
 
-a {
-  color: #38bdf8;
-  text-decoration: none;
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #38bdf8;
+}
+
+/* 页脚 */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #64748b;
 }
 </style>
 
@@ -34,24 +79,40 @@ a {
 
 <body>
 
-<div class="header">
-  <h1>👋 欢迎来到我的网站</h1>
-  <p>这是我的个人主页</p>
+<div class="hero">
+  <h1>🎮 我的游戏世界</h1>
+  <p>一个属于我的 Minecraft / 游戏服务器官网</p>
+  <a class="btn" href="#start">进入网站</a>
 </div>
 
-<div class="card">
-  <h2>💬 留言板</h2>
-  <p>（后面可以加）</p>
+<div class="container" id="start">
+
+  <div class="card">
+    <h2>🌍 服务器信息</h2>
+    <p>IP：mc.example.com</p>
+    <p>版本：1.20.x</p>
+  </div>
+
+  <div class="card">
+    <h2>👥 社区</h2>
+    <p>加入QQ群 / Discord</p>
+  </div>
+
+  <div class="card">
+    <h2>💬 留言板</h2>
+    <p>玩家交流区域（后面可接数据库）</p>
+  </div>
+
+  <div class="card">
+    <h2>📊 状态</h2>
+    <p>在线 / 离线（后面可接API）</p>
+  </div>
+
 </div>
 
-<div class="card">
-  <h2>🎮 游戏服务器</h2>
-  <a href="#">进入服务器页面</a>
-</div>
-
-<div class="card">
-  <p>邮箱：1497211544@qq.com</p>
-</div>
+<footer>
+© 2026 我的游戏官网
+</footer>
 
 </body>
 </html>
